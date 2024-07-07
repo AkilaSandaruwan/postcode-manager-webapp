@@ -1,12 +1,19 @@
 <?php
-define('DB_SERVER', 'localhost');
-define('DB_USERNAME', 'root');
-define('DB_PASSWORD', '1234');
-define('DB_NAME', 'cjcollenette_postcodeDB');
+// Function to establish database connection
+function getDBConnection() {
+    $servername = "localhost";
+    $username = "root"; // Change to your database username
+    $password = ""; // Change to your database password
+    $dbname = "postcodedb"; // Change to your database name
 
-$link = mysqli_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_NAME);
+    // Create connection
+    $conn = new mysqli($servername, $username, $password, $dbname);
 
-if($link === false){
-    die("ERROR: Could not connect. " . mysqli_connect_error());
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+
+    return $conn;
 }
 ?>
