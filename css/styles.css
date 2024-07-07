@@ -1,0 +1,154 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+.header {
+    background-color: #d3d3d3;
+    padding: 20px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.header nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.header nav ul li {
+    display: inline;
+    margin: 0 15px;
+}
+
+.header nav ul li a {
+    text-decoration: none;
+    color: black;
+    font-size: 20px;
+}
+
+.header nav ul li a.active {
+    font-weight: bold;
+}
+
+.image-slider {
+    position: relative;
+    max-width: 100%;
+    margin: auto;
+    overflow: hidden;
+    background-color: #d3d3d3;
+    height: 100vh;
+    border-top: 1px solid #b8b8b8;
+    border-bottom: 1px solid #b8b8b8;
+}
+
+.slides {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+}
+
+.slide {
+    min-width: 100%;
+    box-sizing: border-box;
+}
+
+.slide img {
+    width: 100%;
+    height: 100vh;
+    object-fit: cover;
+    max-width: 100%;
+}
+.prev, .next {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    width: auto;
+    padding: 16px;
+    margin-top: -22px;
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+    transition: 0.6s ease;
+    border-radius: 0 3px 3px 0;
+    user-select: none;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.next {
+    right: 0;
+    border-radius: 3px 0 0 3px;
+}
+
+.prev:hover, .next:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.footer {
+    background-color: #d3d3d3;
+    padding: 20px 0;
+    text-align: center;
+}
+
+/* Existing styles */
+
+.content {
+    padding: 20px;
+}
+
+.postcode-calculator, .postcode-form, .postcode-list {
+    border: 1px solid black;
+    padding: 10px;
+    margin: 10px 0;
+}
+
+.textbox {
+    display: block;
+    margin: 10px 0;
+    width: 100%;
+    padding: 5px;
+}
+
+.calculate-button, .add-button, .signin-button {
+    background-color: #90EE90;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.calculate-button:hover, .add-button:hover, .signin-button:hover {
+    background-color: #66BB6A;
+}
+
+.popup {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.popup-content {
+    background-color: white;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 30%;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover, .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
