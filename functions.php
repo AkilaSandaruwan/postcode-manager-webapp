@@ -1,6 +1,33 @@
 <?php
 include_once 'db.php';
 
+// Function to check if user is authenticated
+function isAuthenticated() {
+    // Check if both userID and username session variables are set
+    return isset($_SESSION['userID']) && isset($_SESSION['username']);
+}
+
+// Function to get user details by username
+function getUserDetails($username) {
+    $conn = getDBConnection();
+    $stmt = $conn->prepare("SELECT userID, Password FROM tbl_users WHERE Username = ?");
+    $stmt->bind_param("s", $username);
+    $stmt->execute();
+    $stmt->store_result();
+
+    if ($stmt->num_rows > 0) {
+        $stmt->bind_result($userID, $hashed_password);
+        $stmt->fetch();
+        $userDetails = ['userID' => $userID, 'password' => $hashed_password];
+    } else {
+        $userDetails = null;
+    }
+
+    $stmt->close();
+    $conn->close();
+    return $userDetails;
+}
+
 // Function to add postcode
 function addPostcode($postcode, $longitude, $latitude) {
     $conn = getDBConnection();

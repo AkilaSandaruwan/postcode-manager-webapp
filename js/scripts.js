@@ -17,16 +17,6 @@ function changeSlide(direction) {
     slides.style.transform = 'translateX(' + (-currentIndex * 100) + 'vw)';
 }
 
-// Existing scripts
-
-function showSignInPopup() {
-    document.getElementById('signInPopup').style.display = 'block';
-}
-
-function closeSignInPopup() {
-    document.getElementById('signInPopup').style.display = 'none';
-}
-
 function calculateDistance() {
     const postcode1 = document.getElementById("postcode1").value;
     const postcode2 = document.getElementById("postcode2").value;
