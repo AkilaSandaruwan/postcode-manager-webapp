@@ -11,9 +11,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $latitude = $_POST['latitude'];
 
         if (addPostcode($postcode, $longitude, $latitude)) {
-            echo "New record created successfully";
+            header("Location: postcode.php?success=1");
+            exit();
         } else {
-            echo "Error: Unable to create record";
+            header("Location: postcode.php?error=1");
+            exit();
         }
 
         header("Location: postcode.php"); // Redirect back to the postcode page
@@ -74,6 +76,27 @@ $postcodes = fetchPostcodes();
 <body>
     <?php include 'header.php'; ?>
     <div class="content">
+    <?php
+        // Check for success pararmeterand display message 
+        if (isset($_GET['success'])) {
+            $success_code = $_GET['success'];
+            if ($success_code == 1) {
+                echo "<p class='success-message'>New postcode added successfully</p>";
+            } elseif ($success_code == 2) {
+                echo "<p class='success-message'>Record deleted successfully</p>";
+            }
+        }
+
+        // Checkfor suuccess parameter and display messages
+        if (isset($_GET['error'])) {
+            $error_code = $_GET['error'];
+            if ($error_code == 1) {
+                echo "<p class='error-message'>Postcode could not be added.</p>";
+            } elseif ($success_code == 2) {
+                echo "<p class='error-message'>Record deleted successfully</p>";
+            }
+        }
+        ?>
         <div class="postcode-calculator">
             <h3>Calculate Distance</h3>
             <div class="postcode-input">

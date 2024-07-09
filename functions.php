@@ -30,14 +30,35 @@ function getUserDetails($username) {
 
 // Function to add postcode
 function addPostcode($postcode, $longitude, $latitude) {
-    $conn = getDBConnection();
-    $stmt = $conn->prepare("INSERT INTO tbl_postcodes (postcode, longitude, latitude) VALUES (?, ?, ?)");
-    $stmt->bind_param("sss", $postcode, $longitude, $latitude);
-    $success = $stmt->execute();
-    $stmt->close();
-    $conn->close();
-    return $success;
+    try {
+        $conn = getDBConnection();
+        
+        if (!$conn) {
+            throw new Exception("Database connection failed.");
+        }
+        
+        $stmt = $conn->prepare("INSERT INTO tbl_postcodes (postcode, longitude, latitude) VALUES (?, ?, ?)");
+        
+        if (!$stmt) {
+            throw new Exception("Failed to prepare statement.");
+        }
+        
+        $stmt->bind_param("sss", $postcode, $longitude, $latitude);
+        
+        if (!$stmt->execute()) {
+            throw new Exception("Failed to execute statement: " . $stmt->error);
+        }
+        
+        $stmt->close();
+        $conn->close();
+        
+        return true; 
+    } catch (Exception $e) {
+        error_log("Error adding postcode: " . $e->getMessage());
+        return false;
+    }
 }
+
 
 // Function to fetch all postcodes
 function fetchPostcodes() {
