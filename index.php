@@ -7,15 +7,7 @@
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-    <div class="header">
-        <nav>
-            <ul>
-                <li><a href="index.php" class="active">Home</a></li>
-                <li><a href="postcode.php">Post Code Manager</a></li>
-                <li><a href="#" onclick="showSignInPopup()">Sign In</a></li>
-            </ul>
-        </nav>
-    </div>
+    <?php include 'header.php'?>
     <div class="image-slider">
         <div class="slides">
             <div class="slide">
@@ -31,9 +23,8 @@
         <button class="prev" onclick="changeSlide(-1)">&#10094;</button>
         <button class="next" onclick="changeSlide(1)">&#10095;</button>
     </div>
-    <div class="footer">
-        <p>Footer</p>
-    </div>
+    
+    <?php include 'footer.php'?>
 
     <script src="js/scripts.js"></script>
 </body>

@@ -1,154 +1,285 @@
-body {
+/* Reset some basic elements */
+body, h1, h2, p, ul, li {
     margin: 0;
-    font-family: Arial, sans-serif;
+    padding: 0;
+    list-style: none;
 }
 
+/* Base styles for body */
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background: #f4f4f4;
+}
+
+/* Header styles */
 .header {
-    background-color: #d3d3d3;
-    padding: 20px;
-    display: flex;
-    justify-content: flex-end;
+    background: #333;
+    color: #fff;
+    padding: 1rem 0;
 }
 
 .header nav ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
+    display: flex;
+    justify-content: center;
 }
 
 .header nav ul li {
-    display: inline;
-    margin: 0 15px;
+    margin: 0 1rem;
 }
 
 .header nav ul li a {
+    color: #fff;
     text-decoration: none;
-    color: black;
-    font-size: 20px;
+    padding: 0.5rem 1rem;
+    transition: background 0.3s;
 }
 
+.header nav ul li a:hover,
 .header nav ul li a.active {
-    font-weight: bold;
+    background: #007BFF;
+    border-radius: 5px;
 }
 
-.image-slider {
-    position: relative;
-    max-width: 100%;
-    margin: auto;
-    overflow: hidden;
-    background-color: #d3d3d3;
-    height: 100vh;
-    border-top: 1px solid #b8b8b8;
-    border-bottom: 1px solid #b8b8b8;
-}
-
-.slides {
-    display: flex;
-    transition: transform 0.5s ease-in-out;
-}
-
-.slide {
-    min-width: 100%;
-    box-sizing: border-box;
-}
-
-.slide img {
-    width: 100%;
-    height: 100vh;
-    object-fit: cover;
-    max-width: 100%;
-}
-.prev, .next {
-    cursor: pointer;
-    position: absolute;
-    top: 50%;
-    width: auto;
-    padding: 16px;
-    margin-top: -22px;
-    color: white;
-    font-weight: bold;
-    font-size: 18px;
-    transition: 0.6s ease;
-    border-radius: 0 3px 3px 0;
-    user-select: none;
-    background-color: rgba(0, 0, 0, 0.5);
-}
-
-.next {
-    right: 0;
-    border-radius: 3px 0 0 3px;
-}
-
-.prev:hover, .next:hover {
-    background-color: rgba(0, 0, 0, 0.8);
-}
-
+/* Footer styles */
 .footer {
-    background-color: #d3d3d3;
-    padding: 20px 0;
+    background: #333;
+    color: #fff;
     text-align: center;
-}
-
-/* Existing styles */
-
-.content {
-    padding: 20px;
-}
-
-.postcode-calculator, .postcode-form, .postcode-list {
-    border: 1px solid black;
-    padding: 10px;
-    margin: 10px 0;
-}
-
-.textbox {
-    display: block;
-    margin: 10px 0;
-    width: 100%;
-    padding: 5px;
-}
-
-.calculate-button, .add-button, .signin-button {
-    background-color: #90EE90;
-    border: none;
-    padding: 10px;
-    cursor: pointer;
-}
-
-.calculate-button:hover, .add-button:hover, .signin-button:hover {
-    background-color: #66BB6A;
-}
-
-.popup {
-    display: none;
+    padding: 1rem 0;
     position: fixed;
-    z-index: 1;
-    left: 0;
+    width: 100%;
+    bottom: 0;
+}
+
+/* Content styles */
+.content {
+    padding: 2rem;
+    max-width: 800px;
+    margin: 0 auto;
+    background: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    margin-top: 1rem;
+    margin-bottom: 3rem;
+}
+
+/* Postcode calculator styles */
+.postcode-calculator {
+    margin-bottom: 2rem;
+}
+
+.postcode-input label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+}
+
+.postcode-input .textbox {
+    width: 100%;
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.postcode-input .calculate-button {
+    background: #007BFF;
+    color: #fff;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.postcode-input .calculate-button:hover {
+    background: #0056b3;
+}
+
+/* Postcode form styles */
+.postcode-form label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+}
+
+.postcode-form .textbox {
+    width: 100%;
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.postcode-form .add-button {
+    background: #28a745;
+    color: #fff;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.postcode-form .add-button:hover {
+    background: #218838;
+}
+
+/* Postcode list styles */
+.postcode-list table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 2rem;
+}
+
+.postcode-list table, .postcode-list th, .postcode-list td {
+    border: 1px solid #ddd;
+}
+
+.postcode-list th, .postcode-list td {
+    padding: 0.75rem;
+    text-align: left;
+}
+
+.postcode-list th {
+    background: #f4f4f4;
+}
+
+/* Postcode details styles */
+.postcode-details {
+    background: #f9f9f9;
+    padding: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+/* Popup styles */
+.popup-overlay {
+    position: fixed;
     top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
-    overflow: auto;
-    background-color: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.7);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
 }
 
-.popup-content {
-    background-color: white;
-    margin: 15% auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 30%;
+.popup-container {
+    background: #fff;
+    padding: 2rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 400px;
+    box-sizing: border-box;
+    text-align: center;
+    position: relative;
 }
 
-.close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
+.popup-container h2 {
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+    color: #333;
 }
 
-.close:hover, .close:focus {
-    color: black;
-    text-decoration: none;
+.popup-container input[type="text"],
+.popup-container input[type="password"] {
+    width: 100%;
+    padding: 0.75rem;
+    margin: 0.5rem 0;
+    border: 1px solid #ccc;
+    border-radius: 0.25rem;
+    box-sizing: border-box;
+    font-size: 1rem;
+}
+
+.popup-container button {
+    width: 100%;
+    padding: 0.75rem;
+    background: #007BFF;
+    border: none;
+    border-radius: 0.25rem;
+    color: #fff;
+    font-size: 1rem;
     cursor: pointer;
+    transition: background 0.3s;
+}
+
+.popup-container button:hover {
+    background: #0056b3;
+}
+
+.popup-container .close-btn {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    background: transparent;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.success-message,
+.error-message {
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 4px;
+}
+
+.success-message {
+    background-color: #dff0d8; /* Light green background */
+    color: #3c763d; /* Dark green text color */
+    border: 1px solid #d6e9c6; /* Light green border */
+}
+
+.error-message {
+    background-color: #f2dede; /* Light red background */
+    color: #a94442; /* Dark red text color */
+    border: 1px solid #ebccd1; /* Light red border */
+}
+
+.postcode-input {
+    margin-bottom: 20px;
+}
+.textbox, .selectbox {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+.calculate-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+}
+.calculate-button:hover {
+    background-color: #45a049;
+}
+
+.cancel-button {
+    background-color: #ccc;
+    color: #333;
+    padding: 8px 16px;
+    border: none;
+    cursor: pointer;
+    display: none; /* Initially hidden */
+}
+
+.cancel-button:hover {
+    background-color: #aaa;
 }
 
