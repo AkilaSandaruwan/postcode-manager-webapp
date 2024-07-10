@@ -4,8 +4,17 @@ session_start();
 <?php
 include 'functions.php';
 
+// Check if user is logged in
+$userLoggedIn = isset($_SESSION['userID']);
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['add_postcode'])) {
+        
+        if (!isAuthenticated()) {
+            header("Location: postcode.php?error=unauthorized");
+            exit();
+        }
+
         $postcode = $_POST['postcode'];
         $longitude = $_POST['longitude'];
         $latitude = $_POST['latitude'];
@@ -43,6 +52,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $error_message = "Invalid username or password";
         }
     } elseif (isset($_POST['delete_postcode'])) {
+
+        if (!isAuthenticated()) {
+            header("Location: postcode.php?error=unauthorized");
+            exit();
+        }
+
         $postcodeID = $_POST['postcodeID'];
 
         if (deletePostcode($postcodeID)) {
@@ -59,6 +74,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $postcodeID = $_POST['postcodeID'];
         $postcodeDetails = fetchPostcodeDetails($postcodeID);
     } elseif (isset($_POST['update_postcode'])) {
+
+        if (!isAuthenticated()) {
+            header("Location: postcode.php?error=unauthorized");
+            exit();
+        }
+
         // Handling code for updating an existing postcode
         $postcodeID = $_POST['postcodeID'];
         $postcode = $_POST['postcode'];
@@ -114,8 +135,11 @@ $postcodes = fetchPostcodes();
                 echo "<p class='error-message'>Unable to delete record.</p>";
             } elseif ($error_code == 3) {
                 echo "<p class='error-message'>Failed to update postcode</p>";
+            } elseif ($error_code == 'unauthorized') {
+                echo "<p class='error-message'>Unauthorized action. Please sign in.</p>";
             }
         }
+        
         ?>
         <div class="postcode-calculator">
             <h3>Calculate Distance</h3>
@@ -152,6 +176,12 @@ $postcodes = fetchPostcodes();
             </div>
         </div>
         <hr>
+        <?php
+        // Display message for not logged-in users
+        if (!$userLoggedIn) {
+            echo "<p>You need to sign in to add postcodes.</p>";
+        }
+         if ($userLoggedIn) { ?>
         <h3 id="form-title">Add Postcode</h3>
         <div class="postcode-form">
             <form action="postcode.php" method="POST" id="postcode-form">
@@ -166,6 +196,7 @@ $postcodes = fetchPostcodes();
                 <button type="button" class="cancel-button" id="cancel-button" onclick="cancelUpdate()" style="display:none;">Cancel Update</button>
             </form>
         </div>
+        <?php } ?>
         <hr>
         <div class="postcode-list">
             <h2>Post Code List</h2>
@@ -182,23 +213,32 @@ if (!empty($postcodes)) {
     foreach ($postcodes as $row) {
         echo "<tr>
             <td>" . htmlspecialchars($row["postcode"]) . "</td>
-            <td>
-                <form action='postcode.php' method='POST' style='display:inline;'>
+            <td>";
+            
+            // Always display View button
+            echo "<form action='postcode.php' method='POST' style='display:inline;'>
                     <input type='hidden' name='postcodeID' value='" . htmlspecialchars($row['postcodeID']) . "'>
                     <button type='submit' name='view_postcode'>View</button>
-                </form>
-                <button onclick='editPostcode(" . htmlspecialchars($row['postcodeID']) . ")'>Edit</button>
-                <form action='postcode.php' method='POST' style='display:inline;'>
-                    <input type='hidden' name='postcodeID' value='" . htmlspecialchars($row['postcodeID']) . "'>
-                    <button type='submit' name='delete_postcode'>Delete</button>
-                </form>
-                <!-- Hidden fields for postcode details -->
+                </form>";
+            
+            if ($userLoggedIn) {
+                // Display Edit and Delete buttons for logged-in users
+                echo "<button onclick='editPostcode(" . htmlspecialchars($row['postcodeID']) . ")'>Edit</button>
+                      <form action='postcode.php' method='POST' style='display:inline;'>
+                        <input type='hidden' name='postcodeID' value='" . htmlspecialchars($row['postcodeID']) . "'>
+                        <button type='submit' name='delete_postcode'>Delete</button>
+                      </form>";
+            } else {
+                echo "<span>Please sign in to perform edit/delete actions.</span>";
+            }
+            
+            echo "<!-- Hidden fields for postcode details -->
                 <input type='hidden' class='postcode-details' id='postcodeDetails_" . htmlspecialchars($row['postcodeID']) . "' 
                        data-postcode='" . htmlspecialchars($row['postcode']) . "' 
                        data-longitude='" . htmlspecialchars($row['longitude']) . "' 
                        data-latitude='" . htmlspecialchars($row['latitude']) . "'>
-            </td>
-        </tr>";
+                </td>
+            </tr>";
     }
 } else {
     echo "<tr><td colspan='2'>No postcodes available</td></tr>";
