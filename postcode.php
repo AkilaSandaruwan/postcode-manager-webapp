@@ -19,6 +19,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $longitude = $_POST['longitude'];
         $latitude = $_POST['latitude'];
 
+        if (!validatePostcode($postcode)) {
+            header("Location: postcode.php?error=invalid_postcode");
+            exit();
+        }
+
         if (addPostcode($postcode, $longitude, $latitude)) {
             header("Location: postcode.php?success=1");
             exit();
@@ -86,6 +91,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $longitude = $_POST['longitude'];
         $latitude = $_POST['latitude'];
 
+        if (!validatePostcode($postcode)) {
+            header("Location: postcode.php?error=invalid_postcode");
+            exit();
+        }
+
         if (updatePostcodeByID($postcodeID, $postcode, $longitude, $latitude)) {
             header("Location: postcode.php?success=3"); // Choose appropriate success code
             exit();
@@ -137,6 +147,9 @@ $postcodes = fetchPostcodes();
                 echo "<p class='error-message'>Failed to update postcode</p>";
             } elseif ($error_code == 'unauthorized') {
                 echo "<p class='error-message'>Unauthorized action. Please sign in.</p>";
+            } elseif ($error_code == 'invalid_postcode') {
+                echo "<p class='error-message'>Invalid postcode! Please enter a valid postcode. 
+                For more details, visit <a href='https://ideal-postcodes.co.uk/guides/uk-postcode-format' target='_blank'>this guide</a>.</p>";
             }
         }
         
