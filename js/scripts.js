@@ -61,3 +61,11 @@ function toRadians(degrees) {
     return degrees * Math.PI / 180;
 }
 
+function scrollToBottom() {
+    window.scrollTo({
+        top: document.body.scrollHeight,
+        behavior: 'smooth'
+    });
+}
+
+

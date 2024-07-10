@@ -182,6 +182,8 @@ $postcodes = fetchPostcodes();
                 </tbody>
             </table>
         </div>
+        <script src="js/scripts.js"></script>
+
         <?php
         if (isset($postcodeDetails)) {
             echo "<div class='postcode-details'>
@@ -191,11 +193,11 @@ $postcodes = fetchPostcodes();
             <p><strong>Longitude:</strong> " . htmlspecialchars($postcodeDetails['longitude']) . "</p>
             <p><strong>Latitude:</strong> " . htmlspecialchars($postcodeDetails['latitude']) . "</p>
         </div>";
+        echo "<script>scrollToBottom();</script>";
         }
         ?>
     </div>
     <?php include 'footer.php'; ?>
-    <script src="js/scripts.js"></script>
 </body>
 
 </html>
