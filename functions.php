@@ -1,6 +1,17 @@
 <?php
 include_once 'db.php';
 
+// Function to update postcode by ID
+function updatePostcodeByID($postcodeID, $postcode, $longitude, $latitude) {
+    $conn = getDBConnection();
+    $stmt = $conn->prepare("UPDATE tbl_postcodes SET postcode = ?, longitude = ?, latitude = ? WHERE postcodeID = ?");
+    $stmt->bind_param("sssi", $postcode, $longitude, $latitude, $postcodeID);
+    $success = $stmt->execute();
+    $stmt->close();
+    $conn->close();
+    return $success;
+}
+
 // Function to calculate the distance between two points using the Haversine formula
 function calculateDistance($latitude1, $longitude1, $latitude2, $longitude2) {
     // Convert degrees to radians

@@ -58,6 +58,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } elseif (isset($_POST['view_postcode'])) {
         $postcodeID = $_POST['postcodeID'];
         $postcodeDetails = fetchPostcodeDetails($postcodeID);
+    } elseif (isset($_POST['update_postcode'])) {
+        // Handling code for updating an existing postcode
+        $postcodeID = $_POST['postcodeID'];
+        $postcode = $_POST['postcode'];
+        $longitude = $_POST['longitude'];
+        $latitude = $_POST['latitude'];
+
+        if (updatePostcodeByID($postcodeID, $postcode, $longitude, $latitude)) {
+            header("Location: postcode.php?success=3"); // Choose appropriate success code
+            exit();
+        } else {
+            header("Location: postcode.php?error=3"); // Choose appropriate error code
+            exit();
+        }
     }
 }
 
@@ -86,6 +100,8 @@ $postcodes = fetchPostcodes();
                 echo "<p class='success-message'>New postcode added successfully</p>";
             } elseif ($success_code == 2) {
                 echo "<p class='success-message'>Record deleted successfully</p>";
+            } elseif ($success_code == 3) {
+                echo "<p class='success-message'>Postcode updated successfully</p>";
             }
         }
 
@@ -94,8 +110,10 @@ $postcodes = fetchPostcodes();
             $error_code = $_GET['error'];
             if ($error_code == 1) {
                 echo "<p class='error-message'>Postcode could not be added.</p>";
-            } elseif ($success_code == 2) {
+            } elseif ($error_code == 2) {
                 echo "<p class='error-message'>Unable to delete record.</p>";
+            } elseif ($error_code == 3) {
+                echo "<p class='error-message'>Failed to update postcode</p>";
             }
         }
         ?>
@@ -134,16 +152,18 @@ $postcodes = fetchPostcodes();
             </div>
         </div>
         <hr>
-        <h3>Add Postcode</h3>
+        <h3 id="form-title">Add Postcode</h3>
         <div class="postcode-form">
-            <form action="postcode.php" method="POST">
+            <form action="postcode.php" method="POST" id="postcode-form">
+                <input type="hidden" id="postcodeID" name="postcodeID">
                 <label for="postcode">Post Code:</label>
                 <input type="text" id="postcode" name="postcode" class="textbox" required>
                 <label for="longitude">Longitude:</label>
                 <input type="text" id="longitude" name="longitude" class="textbox" required>
                 <label for="latitude">Latitude:</label>
                 <input type="text" id="latitude" name="latitude" class="textbox" required>
-                <button class="add-button" type="submit" name="add_postcode">Add Post Code</button>
+                <button class="add-button" type="submit" name="add_postcode" id="submit-button">Add Post Code</button>
+                <button type="button" class="cancel-button" id="cancel-button" onclick="cancelUpdate()" style="display:none;">Cancel Update</button>
             </form>
         </div>
         <hr>
@@ -157,28 +177,33 @@ $postcodes = fetchPostcodes();
                     </tr>
                 </thead>
                 <tbody>
-                    <?php
-                    if (!empty($postcodes)) {
-                        foreach ($postcodes as $row) {
-                            echo "<tr>
-                                <td>" . htmlspecialchars($row["postcode"]) . "</td>
-                                <td>
-                                    <form action='postcode.php' method='POST' style='display:inline;'>
-                                        <input type='hidden' name='postcodeID' value='" . htmlspecialchars($row['postcodeID']) . "'>
-                                        <button type='submit' name='view_postcode'>View</button>
-                                    </form>
-                                    <button>Edit</button>
-                                    <form action='postcode.php' method='POST' style='display:inline;'>
-                                        <input type='hidden' name='postcodeID' value='" . htmlspecialchars($row['postcodeID']) . "'>
-                                        <button type='submit' name='delete_postcode'>Delete</button>
-                                    </form>
-                                </td>
-                            </tr>";
-                        }
-                    } else {
-                        echo "<tr><td colspan='2'>No postcodes available</td></tr>";
-                    }
-                    ?>
+                <?php
+if (!empty($postcodes)) {
+    foreach ($postcodes as $row) {
+        echo "<tr>
+            <td>" . htmlspecialchars($row["postcode"]) . "</td>
+            <td>
+                <form action='postcode.php' method='POST' style='display:inline;'>
+                    <input type='hidden' name='postcodeID' value='" . htmlspecialchars($row['postcodeID']) . "'>
+                    <button type='submit' name='view_postcode'>View</button>
+                </form>
+                <button onclick='editPostcode(" . htmlspecialchars($row['postcodeID']) . ")'>Edit</button>
+                <form action='postcode.php' method='POST' style='display:inline;'>
+                    <input type='hidden' name='postcodeID' value='" . htmlspecialchars($row['postcodeID']) . "'>
+                    <button type='submit' name='delete_postcode'>Delete</button>
+                </form>
+                <!-- Hidden fields for postcode details -->
+                <input type='hidden' class='postcode-details' id='postcodeDetails_" . htmlspecialchars($row['postcodeID']) . "' 
+                       data-postcode='" . htmlspecialchars($row['postcode']) . "' 
+                       data-longitude='" . htmlspecialchars($row['longitude']) . "' 
+                       data-latitude='" . htmlspecialchars($row['latitude']) . "'>
+            </td>
+        </tr>";
+    }
+} else {
+    echo "<tr><td colspan='2'>No postcodes available</td></tr>";
+}
+?>
                 </tbody>
             </table>
         </div>

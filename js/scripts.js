@@ -68,4 +68,30 @@ function scrollToBottom() {
     });
 }
 
+function editPostcode(postcodeID) {
+    // Retrieve postcode details from hidden fields
+    const postcodeElem = document.getElementById('postcodeDetails_' + postcodeID);
+    const postcode = postcodeElem.getAttribute('data-postcode');
+    const longitude = postcodeElem.getAttribute('data-longitude');
+    const latitude = postcodeElem.getAttribute('data-latitude');
+
+    // Populate the form fields with the fetched details
+    document.getElementById('postcodeID').value = postcodeID;
+    document.getElementById('postcode').value = postcode;
+    document.getElementById('longitude').value = longitude;
+    document.getElementById('latitude').value = latitude;
+
+    // Change form title and button text
+    document.getElementById('form-title').innerText = 'Edit Postcode';
+    document.getElementById('submit-button').innerText = 'Update Post Code';
+
+    // Show cancel button
+    document.getElementById('cancel-button').style.display = 'inline-block';
+
+    document.getElementById('submit-button').name = 'update_postcode';
+}
+
+function cancelUpdate() {
+    window.location.reload();
+}
 

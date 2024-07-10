@@ -270,3 +270,16 @@ body {
     background-color: #45a049;
 }
 
+.cancel-button {
+    background-color: #ccc;
+    color: #333;
+    padding: 8px 16px;
+    border: none;
+    cursor: pointer;
+    display: none; /* Initially hidden */
+}
+
+.cancel-button:hover {
+    background-color: #aaa;
+}
+
