@@ -18,45 +18,46 @@ function changeSlide(direction) {
 }
 
 function calculateDistance() {
-    const postcode1 = document.getElementById("postcode1").value;
-    const postcode2 = document.getElementById("postcode2").value;
-    // Assuming you have a function to get the latitude and longitude for a postcode
-    const coord1 = getCoordinates(postcode1);
-    const coord2 = getCoordinates(postcode2);
-    if (coord1 && coord2) {
-        const distance = haversineDistance(coord1.lat, coord1.lon, coord2.lat, coord2.lon);
-        document.getElementById("distance").value = distance.toFixed(2) + " miles";
+    const select1 = document.getElementById('postcode1');
+    const select2 = document.getElementById('postcode2');
+    const distanceInput = document.getElementById('distance');
+
+    const option1 = select1.options[select1.selectedIndex];
+    const option2 = select2.options[select2.selectedIndex];
+
+    if (option1.value && option2.value) {
+        const lat1 = parseFloat(option1.getAttribute('data-lat'));
+        const lon1 = parseFloat(option1.getAttribute('data-lon'));
+        const lat2 = parseFloat(option2.getAttribute('data-lat'));
+        const lon2 = parseFloat(option2.getAttribute('data-lon'));
+
+        const distance = calculateHaversineDistance(lat1, lon1, lat2, lon2);
+        distanceInput.value = distance.toFixed(2) + ' meters';
     } else {
-        alert("Invalid postcodes");
+        distanceInput.value = 'Please select both postcodes';
     }
 }
 
-function haversineDistance(lat1, lon1, lat2, lon2) {
-    const R = 6371; // Radius of the Earth in km
-    const dLat = toRad(lat2 - lat1);
-    const dLon = toRad(lon2 - lon1);
-    const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-              Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
-              Math.sin(dLon / 2) * Math.sin(dLon / 2);
+function calculateHaversineDistance(lat1, lon1, lat2, lon2) {
+    const earthRadius = 6371000; // Radius of the Earth in meters
+    const lat1Rad = toRadians(lat1);
+    const lon1Rad = toRadians(lon1);
+    const lat2Rad = toRadians(lat2);
+    const lon2Rad = toRadians(lon2);
+
+    const latDelta = lat2Rad - lat1Rad;
+    const lonDelta = lon2Rad - lon1Rad;
+
+    const a = Math.sin(latDelta / 2) * Math.sin(latDelta / 2) +
+              Math.cos(lat1Rad) * Math.cos(lat2Rad) *
+              Math.sin(lonDelta / 2) * Math.sin(lonDelta / 2);
+
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    const distance = R * c; // Distance in km
-    return distance * 0.621371; // Convert km to miles
+
+    return earthRadius * c; // Distance in meters
 }
 
-function toRad(Value) {
-    return Value * Math.PI / 180;
-}
-
-// Dummy function for getting coordinates
-// Replace this with actual implementation
-function getCoordinates(postcode) {
-    // Fetch coordinates based on postcode from the server or a predefined list
-    // Example:
-    if (postcode === "12345") {
-        return {lat: 40.7128, lon: -74.0060}; // Coordinates for New York
-    } else if (postcode === "67890") {
-        return {lat: 34.0522, lon: -118.2437}; // Coordinates for Los Angeles
-    }
-    return null;
+function toRadians(degrees) {
+    return degrees * Math.PI / 180;
 }
 

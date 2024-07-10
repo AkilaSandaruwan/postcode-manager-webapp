@@ -244,4 +244,29 @@ body {
     border: 1px solid #ebccd1; /* Light red border */
 }
 
+.postcode-input {
+    margin-bottom: 20px;
+}
+.textbox, .selectbox {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+.calculate-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+}
+.calculate-button:hover {
+    background-color: #45a049;
+}
 

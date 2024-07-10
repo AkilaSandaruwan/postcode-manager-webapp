@@ -1,6 +1,29 @@
 <?php
 include_once 'db.php';
 
+// Function to calculate the distance between two points using the Haversine formula
+function calculateDistance($latitude1, $longitude1, $latitude2, $longitude2) {
+    // Convert degrees to radians
+    $earthRadius = 6371000; // Radius of the Earth in meters
+    $lat1 = deg2rad($latitude1);
+    $lon1 = deg2rad($longitude1);
+    $lat2 = deg2rad($latitude2);
+    $lon2 = deg2rad($longitude2);
+
+    $latDelta = $lat2 - $lat1;
+    $lonDelta = $lon2 - $lon1;
+
+    $a = sin($latDelta / 2) * sin($latDelta / 2) +
+         cos($lat1) * cos($lat2) *
+         sin($lonDelta / 2) * sin($lonDelta / 2);
+
+    $c = 2 * atan2(sqrt($a), sqrt(1 - $a));
+
+    $distance = $earthRadius * $c; // Distance in meters
+
+    return $distance;
+}
+
 // Function to check if user is authenticated
 function isAuthenticated() {
     // Check if both userID and username session variables are set

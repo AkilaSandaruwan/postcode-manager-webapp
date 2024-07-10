@@ -103,12 +103,34 @@ $postcodes = fetchPostcodes();
             <h3>Calculate Distance</h3>
             <div class="postcode-input">
                 <label for="postcode1">Post Code 1:</label>
-                <input type="text" id="postcode1" class="textbox">
+                <select id="postcode1" class="selectbox">
+                    <option value="" disabled selected>Select postcode</option>
+                    <?php
+                    if (!empty($postcodes)) {
+                        foreach ($postcodes as $row) {
+                            echo "<option value='" . htmlspecialchars($row['postcodeID']) . "' data-lat='" . htmlspecialchars($row['latitude']) . "' data-lon='" . htmlspecialchars($row['longitude']) . "'>" . htmlspecialchars($row['postcode']) . " (" . htmlspecialchars($row['longitude']) . ", " . htmlspecialchars($row['latitude']) . ")</option>";
+                        }
+                    } else {
+                        echo "<option value=''>No postcodes available</option>";
+                    }
+                    ?>
+                </select>
                 <label for="postcode2">Post Code 2:</label>
-                <input type="text" id="postcode2" class="textbox">
+                <select id="postcode2" class="selectbox">
+                    <option value="" disabled selected>Select postcode</option>
+                    <?php
+                    if (!empty($postcodes)) {
+                        foreach ($postcodes as $row) {
+                            echo "<option value='" . htmlspecialchars($row['postcodeID']) . "' data-lat='" . htmlspecialchars($row['latitude']) . "' data-lon='" . htmlspecialchars($row['longitude']) . "'>" . htmlspecialchars($row['postcode']) . " (" . htmlspecialchars($row['longitude']) . ", " . htmlspecialchars($row['latitude']) . ")</option>";
+                        }
+                    } else {
+                        echo "<option value=''>No postcodes available</option>";
+                    }
+                    ?>
+                </select>
                 <button class="calculate-button" onclick="calculateDistance()">Calculate</button>
                 <label for="distance">Distance:</label>
-                <input type="text" id="distance" class="textbox">
+                <input type="text" id="distance" class="textbox" readonly>
             </div>
         </div>
         <hr>
@@ -173,6 +195,7 @@ $postcodes = fetchPostcodes();
         ?>
     </div>
     <?php include 'footer.php'; ?>
+    <script src="js/scripts.js"></script>
 </body>
 
 </html>
