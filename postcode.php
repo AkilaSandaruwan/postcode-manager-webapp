@@ -46,9 +46,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $postcodeID = $_POST['postcodeID'];
 
         if (deletePostcode($postcodeID)) {
-            echo "Record deleted successfully";
+            header("Location: postcode.php?success=2");
+            exit();
         } else {
-            echo "Error: Unable to delete record";
+            header("Location: postcode.php?error=2");
+            exit();
         }
 
         header("Location: postcode.php"); // Redirect back to the postcode page
@@ -93,7 +95,7 @@ $postcodes = fetchPostcodes();
             if ($error_code == 1) {
                 echo "<p class='error-message'>Postcode could not be added.</p>";
             } elseif ($success_code == 2) {
-                echo "<p class='error-message'>Record deleted successfully</p>";
+                echo "<p class='error-message'>Unable to delete record.</p>";
             }
         }
         ?>
