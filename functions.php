@@ -135,4 +135,32 @@ function deletePostcode($postcodeID) {
     $conn->close();
     return $success;
 }
+
+function validateOutwardCode($outwardCode) {
+    // Outward code should be 2-4 characters long, starting with a letter and ending with a number or letter
+    $outwardCodePattern = '/^[A-Z]{1,2}\d[A-Z\d]?$/i';
+    return preg_match($outwardCodePattern, $outwardCode);
+}
+
+function validateInwardCode($inwardCode) {
+    // Inward code should be exactly 3 characters long and start with a number
+    $inwardCodePattern = '/^\d[A-Z]{2}$/i';
+    return preg_match($inwardCodePattern, $inwardCode);
+}
+
+function validatePostcode($postcode) {
+    // Split postcode into outward and inward codes
+    $postcode = strtoupper($postcode); // Convert to uppercase
+    $postcode = preg_replace('/\s+/', '', $postcode); // Remove any spaces
+
+    $length = strlen($postcode);
+    if ($length < 5 || $length > 7) {
+        return false; // Postcode length is not within the valid range
+    }
+
+    $outwardCode = substr($postcode, 0, -3);
+    $inwardCode = substr($postcode, -3);
+
+    return validateOutwardCode($outwardCode) && validateInwardCode($inwardCode);
+}
 ?>
