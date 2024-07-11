@@ -32,7 +32,7 @@ function calculateDistance() {
         const lon2 = parseFloat(option2.getAttribute('data-lon'));
 
         const distance = calculateHaversineDistance(lat1, lon1, lat2, lon2);
-        distanceInput.value = distance.toFixed(2) + ' meters';
+        distanceInput.value = distance.toFixed(2) + ' miles';
     } else {
         distanceInput.value = 'Please select both postcodes';
     }
@@ -54,7 +54,7 @@ function calculateHaversineDistance(lat1, lon1, lat2, lon2) {
 
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
-    return earthRadius * c; // Distance in meters
+    return (earthRadius * c)/1609.34; // Distance in miles
 }
 
 function toRadians(degrees) {
